@@ -22,14 +22,11 @@ const Dashboard = () => {
         <div>🌍 Drift: {data.metrics.environmentalDrift}°</div>
       </div>
 
-      <div className="bg-gray-800 p-4 rounded">
-        <h2 className="text-xl mb-2">AI System Insight</h2>
-        <p className="text-sm leading-relaxed whitespace-pre-wrap">
-          {data.analysis}
-        </p>
-      </div>
-    </div>
-  );
-};
+      <div className="mt-6 bg-gray-800 p-4 rounded-lg">
+  <h2 className="text-xl font-semibold mb-2">AI System Insight</h2>
+  <p className="text-sm text-gray-300">
+    Live AI-generated operational insight will stream here.
+  </p>
+</div>
 
 export default Dashboard;
