@@ -1,6 +1,6 @@
-⚡ VoltAir Dashboard
-VoltAir is an AI-powered wireless energy intelligence prototype designed to demonstrate real-time grid insights, system efficiency, and future-ready energy orchestration.
-This repository contains a working dashboard prototype built for live demos, investor discussions, and rapid iteration using Next.js + Vercel AI Gateway.
+# ⚡ VoltAir Dashboard
+
+> AI-powered wireless energy intelligence prototype for real-time grid insight, system efficiency, and future-ready energy orchestration.
 
 🌍 What This Project Represents
 VoltAir is not just a dashboard — it is a signal.
