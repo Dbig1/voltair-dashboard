@@ -1,36 +1,150 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
-
-# testing
-/coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
+mkdir voltair-dashboard
+cd voltair-dashboard
+pnpm init -y
+pnpm i next react react-dom tailwindcss autonoma ai dotenv
+pnpm i -D typescript @types/node tsx
+npx tailwindcss init -p
+mkdir -p src/components src/pages/api src/styles public
+touch src/pages/index.tsx src/components/Dashboard.tsx src/components/MetricsChart.tsx src/styles/globals.css .env.local tsconfig.json README.md .gitignore
+node_modules/
+.next/
+.env.local
 .DS_Store
-*.pem
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve"
+  },
+  "include": ["src"]
+}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+body {
+  background-color: #0f172a;
+  color: #fff;
+  font-family: sans-serif;
+}
+import React from "react";
 
-# local env files
-.env*.local
-.env
+const MetricsChart = () => {
+  return (
+    <div className="bg-gray-800 p-4 rounded-lg mb-4">
+      <h2 className="text-xl mb-2 font-semibold">Wireless Transfer Efficiency</h2>
+      <div className="h-40 bg-gray-700 flex items-center justify-center">
+        <span>Graph placeholder</span>
+      </div>
+    </div>
+  );
+};
 
-# vercel
-.vercel
+export default MetricsChart;
+import React, { useEffect, useState } from "react";
+import MetricsChart from "./MetricsChart";
+import { streamText } from "ai";
+import "dotenv/config";
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+const Dashboard = () => {
+  const [aiText, setAiText] = useState("Generating AI insights...");
+
+  useEffect(() => {
+    const fetchAI = async () => {
+      const result = streamText({
+        model: "openai/gpt-5",
+        prompt: "Write 3 key insights for VoltAir Premium Dashboard in 50 words.",
+      });
+
+      let text = "";
+      for await (const part of result.textStream) {
+        text += part;
+        setAiText(text);
+      }
+    };
+
+    fetchAI().catch(console.error);
+  }, []);
+
+  return (
+    <div className="p-6 min-h-screen">
+      <h1 className="text-3xl font-bold mb-4 text-yellow-400">
+        VoltAir Premium Dashboard
+      </h1>
+
+      <MetricsChart />
+
+      <div className="bg-yellow-600 bg-opacity-20 p-4 rounded-lg">
+        <h2 className="text-xl font-semibold mb-2">AI Insights</h2>
+        <p>{aiText}</p>
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard;
+import React, { useEffect, useState } from "react";
+import MetricsChart from "./MetricsChart";
+import { streamText } from "ai";
+import "dotenv/config";
+
+const Dashboard = () => {
+  const [aiText, setAiText] = useState("Generating AI insights...");
+
+  useEffect(() => {
+    const fetchAI = async () => {
+      const result = streamText({
+        model: "openai/gpt-5",
+        prompt: "Write 3 key insights for VoltAir Premium Dashboard in 50 words.",
+      });
+
+      let text = "";
+      for await (const part of result.textStream) {
+        text += part;
+        setAiText(text);
+      }
+    };
+
+    fetchAI().catch(console.error);
+  }, []);
+
+  return (
+    <div className="p-6 min-h-screen">
+      <h1 className="text-3xl font-bold mb-4 text-yellow-400">
+        VoltAir Premium Dashboard
+      </h1>
+
+      <MetricsChart />
+
+      <div className="bg-yellow-600 bg-opacity-20 p-4 rounded-lg">
+        <h2 className="text-xl font-semibold mb-2">AI Insights</h2>
+        <p>{aiText}</p>
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard;
+import Dashboard from "../components/Dashboard";
+
+export default function Home() {
+  return <Dashboard />;
+}
+vck_29GkKcQeHVPpIYV4j0c62HrsSumb7UqRsrj1wo8v1GkgxtdRDN2Dv5vO
+"scripts": {
+  "dev": "next dev",
+  "build": "next build",
+  "start": "next start",
+  "lint": "next lint"
+}
+pnpm dev
