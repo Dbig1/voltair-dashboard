@@ -1,31 +1,27 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { streamText } from "ai";
 import { generateVoltAirMetrics } from "@/lib/voltairMetrics";
 
+interface ResponseData {
+  metrics: ReturnType<typeof generateVoltAirMetrics>;
+  analysis: string;
+}
+
 export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
+  _req: NextApiRequest,
+  res: NextApiResponse<ResponseData>
 ) {
   const metrics = generateVoltAirMetrics();
 
-  const prompt = `
-You are an energy systems analyst.
-Analyze the following VoltAir wireless power transfer metrics
-and provide a concise executive insight.
-
-Metrics:
-${JSON.stringify(metrics, null, 2)}
-`;
-
-  const result = await streamText({
-    model: "openai/gpt-5",
-    prompt,
-  });
-
-  let analysis = "";
-  for await (const chunk of result.textStream) {
-    analysis += chunk;
-  }
+  // Simulated AI analysis for demonstration
+  const analysis = `
+    VoltAir System Status: OPERATIONAL
+    
+    Current wireless energy transfer efficiency stands at ${metrics.efficiency}%, indicating optimal power transmission conditions.
+    The stability index of ${metrics.stabilityIndex} shows the system is maintaining excellent operational coherence with minimal fluctuations.
+    Environmental factors contribute a thermal drift of ${metrics.environmentalDrift}°C, well within acceptable parameters.
+    
+    Recommendations: Continue normal operations. System performance is within nominal ranges.
+  `.trim();
 
   res.status(200).json({
     metrics,

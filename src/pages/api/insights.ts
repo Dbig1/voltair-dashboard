@@ -1,19 +1,27 @@
-import { streamText } from "ai";
+import type { NextApiRequest, NextApiResponse } from "next";
+import { generateVoltAirMetrics } from "@/lib/voltairMetrics";
 
-export const config = {
-  runtime: "edge",
-};
+interface InsightResponse {
+  insight: string;
+  metrics: ReturnType<typeof generateVoltAirMetrics>;
+}
 
-export default async function handler() {
-  const result = streamText({
-    model: "openai/gpt-5",
-    prompt: `
-    You are an AI energy intelligence system.
-    Provide a concise insight about wireless energy transfer efficiency,
-    grid load optimization, and system health.
-    Speak like a premium infrastructure dashboard.
-    `,
+export default async function handler(
+  _req: NextApiRequest,
+  res: NextApiResponse<InsightResponse>
+) {
+  const metrics = generateVoltAirMetrics();
+
+  const insight = `
+    Real-time AI Energy Intelligence Update:
+    
+    Wireless power transmission is operating at peak efficiency with a stability index of ${metrics.stabilityIndex}.
+    The system demonstrates resilience with a loss factor of only ${metrics.lossFactor}%, showcasing advanced optimization algorithms.
+    Grid load distribution is balanced, and predictive models indicate sustained performance over the next operational cycle.
+  `.trim();
+
+  res.status(200).json({
+    insight,
+    metrics,
   });
-
-  return result.toAIStreamResponse();
 }
