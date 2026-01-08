@@ -1,19 +1,32 @@
-import { streamText } from "ai";
+import type { NextApiRequest, NextApiResponse } from "next";
 
-export const config = {
-  runtime: "edge",
-};
+interface Insight {
+  timestamp: string;
+  type: string;
+  message: string;
+}
 
-export default async function handler() {
-  const result = streamText({
-    model: "openai/gpt-5",
-    prompt: `
-    You are an AI energy intelligence system.
-    Provide a concise insight about wireless energy transfer efficiency,
-    grid load optimization, and system health.
-    Speak like a premium infrastructure dashboard.
-    `,
-  });
+export default async function handler(
+  _req: NextApiRequest,
+  res: NextApiResponse<Insight[]>
+) {
+  const insights: Insight[] = [
+    {
+      timestamp: new Date().toISOString(),
+      type: "efficiency",
+      message: "Wireless transfer efficiency within optimal range",
+    },
+    {
+      timestamp: new Date().toISOString(),
+      type: "grid",
+      message: "Grid load distribution stable across all zones",
+    },
+    {
+      timestamp: new Date().toISOString(),
+      type: "system",
+      message: "All system parameters nominal",
+    },
+  ];
 
-  return result.toAIStreamResponse();
+  res.status(200).json(insights);
 }
