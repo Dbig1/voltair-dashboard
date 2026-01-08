@@ -1,32 +1,26 @@
-import React, { useEffect, useState } from "react";
+/**
+ * VoltAir Metrics Generator
+ * Generates simulated wireless energy transfer metrics for demonstration
+ */
 
-const Dashboard = () => {
-  const [data, setData] = useState<any>(null);
+export interface VoltAirMetrics {
+  efficiency: number;
+  stabilityIndex: number;
+  lossFactor: number;
+  environmentalDrift: number;
+  timestamp: string;
+}
 
-  useEffect(() => {
-    fetch("/api/ai", { method: "POST" })
-      .then(res => res.json())
-      .then(setData);
-  }, []);
-
-  if (!data) return <div className="p-6 text-white">Loading VoltAir Core…</div>;
-
-  return (
-    <div className="p-6 bg-gray-900 text-white min-h-screen">
-      <h1 className="text-3xl font-bold mb-4">VoltAir Intelligence Console</h1>
-
-      <div className="grid grid-cols-2 gap-4 mb-6">
-        <div>⚡ Efficiency: {data.metrics.efficiency}%</div>
-        <div>🧭 Stability Index: {data.metrics.stabilityIndex}</div>
-        <div>🔥 Loss Factor: {data.metrics.lossFactor}</div>
-        <div>🌍 Drift: {data.metrics.environmentalDrift}°</div>
-      </div>
-
-      <div className="mt-6 bg-gray-800 p-4 rounded-lg">
-  <h2 className="text-xl font-semibold mb-2">AI System Insight</h2>
-  <p className="text-sm text-gray-300">
-    Live AI-generated operational insight will stream here.
-  </p>
-</div>
-
-export default Dashboard;
+/**
+ * Generate realistic simulated VoltAir metrics
+ * All values are for demonstration purposes only
+ */
+export function generateVoltAirMetrics(): VoltAirMetrics {
+  return {
+    efficiency: Math.round((75 + Math.random() * 20) * 10) / 10,
+    stabilityIndex: Math.round((85 + Math.random() * 15) * 10) / 10,
+    lossFactor: Math.round((8 + Math.random() * 4) * 10) / 10,
+    environmentalDrift: Math.round((22 + Math.random() * 5) * 10) / 10,
+    timestamp: new Date().toISOString(),
+  };
+}
