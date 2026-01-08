@@ -32,3 +32,8 @@ try {
 } catch (err) {
   console.error("\n❌ Deployment failed. Details:", err.message);
 }
+# install dependencies
+npm install
+
+# run deployment script
+node deploy.js
